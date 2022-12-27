@@ -58,19 +58,24 @@
   <audio data-key="l" src="sounds/tink.wav"></audio>
 
 <script>
-  window.addEventListener('keydown', function(e) {
+  function playSound(e) {
     const audio = document.querySelector(`audio[data-key="${e.key}"]`);
     const key = document.querySelector(`.key[data-key="${e.key}"]`);
     if (!audio) return; //stops the function from running together
     audio.currentTime = 0; //supposed to allow successive plays, does not appear functional
     audio.play();
     key.classList.add('playing');
+  }
 
-    console.log(key);
-  });
+  function removeTransition(e) {
+    if (e.propertyName !== 'transform') return; //He said to skip if this is not a transform, I don't see transform anywhere?
+    this.classList.remove('playing')
+  }
 
   const keys = document.querySelectorAll('.key');
-  keys.forEach((key => ))
+  keys.forEach(key => key.addEventListener('transitionend', removeTransition));
+  window.addEventListener('keydown', playSound);
+
 </script>
 
 
